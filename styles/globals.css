@@ -28,6 +28,13 @@ ul {
   padding: 0;
 }
 
+.ul-list {
+  list-style-type: disc;
+  margin: 5px;
+  margin-left: 20px;
+  padding: 5px;
+}
+
 .center {
   margin: 15px auto;
   text-align: center;
@@ -65,4 +72,11 @@ ul {
   background-color: #0070f3;
   color: white;
   font-weight: bold;
+}
+
+.div-centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

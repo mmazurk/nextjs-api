@@ -1,8 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function Home() {
   const emailInputRef = useRef();
   const feedbackInputRef = useRef();
+  const [feedbackItems, setFeedbackItems] = useState([]);
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -19,14 +20,23 @@ export default function Home() {
       },
     })
       .then((res) => res.json())
-      .then((data) => console.log("Payload:", data));
+      .then((data) => console.log(data));
     emailInputRef.current.value = "";
     feedbackInputRef.current.value = "";
   }
 
+  function loadFeedbackHandler() {
+    fetch("http://localhost:3000/api/feedback")
+      .then((response) => response.json())
+      .then((data) => {
+        setFeedbackItems(data.feedback);
+        console.log(data.feedback);
+      });
+  }
+
   return (
     <div>
-      <h1 className="center">Time to Create a Fun Form</h1>
+      <h1 className="center">Time to Create a Form</h1>
       <form onSubmit={submitFormHandler} className="feedback-form">
         <div>
           <label htmlFor="email">Your Email Address</label>
@@ -48,6 +58,15 @@ export default function Home() {
         </div>
         <button type="submit">Send Feedback</button>
       </form>
+      <hr />
+      <div className="div-centered">
+        <button onClick={loadFeedbackHandler}>Load Feedback</button>
+        <ul className="ul-list">
+          {feedbackItems.map((item) => (
+            <li key={item.id}>{item.feedback_entered}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
